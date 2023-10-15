@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PokemonReviewApplication.Data;
+using PokemonReviewApplication.Interfaces;
+using PokemonReviewApplication.Repositories;
 
 namespace PokemonReviewApplication
 {
@@ -22,6 +24,8 @@ namespace PokemonReviewApplication
 			});
 
 			builder.Services.AddTransient<Seed>();
+
+			builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
 			var app = builder.Build();
 
