@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PokemonReviewApplication.Data;
+using PokemonReviewApplication.Helpers;
 using PokemonReviewApplication.Interfaces;
 using PokemonReviewApplication.Repositories;
 
@@ -26,6 +27,8 @@ namespace PokemonReviewApplication
 			builder.Services.AddTransient<Seed>();
 
 			builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+
+			builder.Services.AddAutoMapper(p => p.AddProfile(new MappingProfiles()));
 
 			var app = builder.Build();
 
