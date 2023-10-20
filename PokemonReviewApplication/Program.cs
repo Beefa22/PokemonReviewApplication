@@ -30,6 +30,8 @@ namespace PokemonReviewApplication
 
 			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+			builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+			builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 
 			var app = builder.Build();
 

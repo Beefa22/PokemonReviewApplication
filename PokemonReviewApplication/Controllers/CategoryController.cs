@@ -44,7 +44,7 @@ namespace PokemonReviewApplication.Controllers
 		[ProducesResponseType(200,Type = typeof(IEnumerable<Pokemon>))]
 		public IActionResult GetPokemonsByCategoryId(int categoryId)
 		{
-			if (_categoryRepo.IsCatigoryExist(categoryId)) return NotFound();
+			//if (_categoryRepo.IsCatigoryExist(categoryId)) return NotFound();
 
 			var pokemons = _mapper.Map<List<PokemonDto>>( _categoryRepo.GetPokemonsByCategory(categoryId));
 			if (!ModelState.IsValid) return BadRequest();

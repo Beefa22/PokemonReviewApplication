@@ -23,7 +23,8 @@ namespace PokemonReviewApplication.Repositories
 		=> _context.Categories.Find(id);
 
 		public ICollection<Pokemon> GetPokemonsByCategory(int catigoryId)
-=> _context.PokemonCategories.Where(p => p.CategoryId == catigoryId).Select(p=>p.Pokemon).ToList();
+		=> _context.PokemonCategories.Where(p => p.CategoryId == catigoryId)
+									 .Select(p=>p.Pokemon).ToList();
 
 		public bool IsCatigoryExist(int categoryId)
 		=> _context.Categories.Any(c => c.Id == categoryId);
