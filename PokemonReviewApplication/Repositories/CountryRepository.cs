@@ -12,6 +12,13 @@ namespace PokemonReviewApplication.Repositories
 		{
 			_context = context;
 		}
+
+		public bool CreateCountry(Country country)
+		{
+			_context.Add(country);
+			return Save();
+		}
+
 		public ICollection<Country> GetCountries()
 		=> _context.Countries.ToList();
 
@@ -26,5 +33,8 @@ namespace PokemonReviewApplication.Repositories
 
 		public bool IsCoutnryExists(int id)
 		=> _context.Countries.Any(c => c.Id==id);
+
+		public bool Save()
+		=> _context.SaveChanges() > 0 ? true : false;
 	}
 }

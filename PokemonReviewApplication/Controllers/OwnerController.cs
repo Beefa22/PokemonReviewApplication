@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PokemonReviewApplication.Dtos;
 using PokemonReviewApplication.Interfaces;
 using PokemonReviewApplication.Models;
@@ -11,11 +12,14 @@ namespace PokemonReviewApplication.Controllers
 	public class OwnerController : ControllerBase
 	{
 		private readonly IOwnerRepository _ownerRepository;
+		private readonly ICountryRepository _countryRepository;
 		private readonly IMapper _mapper;
 
-		public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+		public OwnerController(IOwnerRepository ownerRepository,ICountryRepository countryRepository,
+			IMapper mapper)
 		{
 			_ownerRepository = ownerRepository;
+			_countryRepository = countryRepository;
 			_mapper = mapper;
 		}
 		[HttpGet]
@@ -39,6 +43,32 @@ namespace PokemonReviewApplication.Controllers
 			var pokemons = _mapper.Map<List<PokemonDto>>(_ownerRepository.GetPokemonsByOwner(ownerId));
 			if (!ModelState.IsValid) return BadRequest();
 			return Ok(pokemons);
+		}
+
+		[HttpPost]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(400)]
+		public IActionResult CreateOwner([FromQuery]int countryId,[FromBody] OwnerDto ownerDto)
+		{
+			if (ownerDto is null) return BadRequest();
+
+			var owner = _ownerRepository.GetOwners().Where(o => o.Id == ownerDto.Id).FirstOrDefault();
+			if (owner is not null)
+			{
+				ModelState.AddModelError("", "This Owner is already Exists");
+				return StatusCode(422, ModelState);
+			}
+			if (!ModelState.IsValid) return BadRequest();
+
+			var mappedOwner = _mapper.Map<Owner>(ownerDto);
+			mappedOwner.Country = _countryRepository.GetCountry(countryId);
+
+			if (!_ownerRepository.CreateOwner(mappedOwner))
+			{
+				ModelState.AddModelError("", "Something went wrong while saving");
+				return StatusCode(500, ModelState);
+			}
+			return Ok("Succefully Created");
 		}
 	
 	}

@@ -13,6 +13,13 @@ namespace PokemonReviewApplication.Repositories
 		{
 			_context = context;
 		}
+
+		public bool CreateCategory(Category category)
+		{
+			_context.Add(category);
+			return Save();
+		}
+
 		public ICollection<Category> GetCategories()
 		=> _context.Categories.ToList();
 
@@ -28,5 +35,11 @@ namespace PokemonReviewApplication.Repositories
 
 		public bool IsCatigoryExist(int categoryId)
 		=> _context.Categories.Any(c => c.Id == categoryId);
+
+		public bool Save()
+		{
+			var saved = _context.SaveChanges();
+			return saved > 0 ? true : false;
+		}
 	}
 }
