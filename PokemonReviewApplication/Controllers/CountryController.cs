@@ -49,7 +49,7 @@ namespace PokemonReviewApplication.Controllers
 			//if (!_countryRepository.IsCoutnryExists(ownerId)) return NotFound();
 			var country = _countryRepository.GetCoutnriesByOwner(ownerId);
 			if (!ModelState.IsValid) return BadRequest();
-			return Ok(_mapper.Map<Country, CountryDto>(country));
+			return Ok(_mapper.Map<Country, CountryDto>(country));	
 		}
 	}
 }

@@ -3,6 +3,7 @@ using PokemonReviewApplication.Data;
 using PokemonReviewApplication.Helpers;
 using PokemonReviewApplication.Interfaces;
 using PokemonReviewApplication.Repositories;
+using System.Text.Json.Serialization;
 
 namespace PokemonReviewApplication
 {
@@ -32,6 +33,11 @@ namespace PokemonReviewApplication
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 			builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+			builder.Services.AddScoped<IReviewerRespository, ReviewerRepository>();
+			builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
+			//builder.Services.AddControllers().AddJsonOptions(x =>
+			//x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);//for cycles problem. 
 
 			var app = builder.Build();
 

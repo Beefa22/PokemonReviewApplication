@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 using PokemonReviewApplication.Dtos;
 using PokemonReviewApplication.Interfaces;
 using PokemonReviewApplication.Models;
@@ -20,10 +18,10 @@ namespace PokemonReviewApplication.Controllers
 			_ownerRepository = ownerRepository;
 			_mapper = mapper;
 		}
-
+		[HttpGet]
 		public IActionResult GetOwners()
 		{
-			var owners = _mapper.Map<OwnerDto>(_ownerRepository.GetOwners());
+			var owners = _mapper.Map<List<OwnerDto>>(_ownerRepository.GetOwners());
 			if (!ModelState.IsValid) return NotFound();
 			return Ok(owners);
 		}
@@ -35,10 +33,10 @@ namespace PokemonReviewApplication.Controllers
 			if (!ModelState.IsValid) return BadRequest();
 			return Ok(_mapper.Map<Owner, OwnerDto>(owner));
 		}
-		[HttpGet("pokemons/{ownerId}")]
+		[HttpGet("{ownerId}/pokemons")]
 		public IActionResult GetPokemonsByOwnerId(int ownerId)
 		{
-			var pokemons = _mapper.Map<PokemonDto>(_ownerRepository.GetPokemonsByOwner(ownerId));
+			var pokemons = _mapper.Map<List<PokemonDto>>(_ownerRepository.GetPokemonsByOwner(ownerId));
 			if (!ModelState.IsValid) return BadRequest();
 			return Ok(pokemons);
 		}
